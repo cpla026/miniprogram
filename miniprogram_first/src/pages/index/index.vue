@@ -24,6 +24,7 @@
 
 <script>
 import card from '@/components/card'
+import config from '@/utils/config'
 
 export default {
   data () {
@@ -56,12 +57,22 @@ export default {
     },
     clickHandle (msg, ev) {
       console.log('clickHandle:', msg, ev)
+    },
+    getUserList () {
+      wx.request({
+        url: config.host + 'user/getUserList',
+        method: 'GET',
+        success: (res) => {
+          console.log(res)
+        }
+      })
     }
   },
 
   created () {
     // 调用应用实例的方法获取全局数据
     this.getUserInfo()
+    this.getUserList()
   }
 }
 </script>
