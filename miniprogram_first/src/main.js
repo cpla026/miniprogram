@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import App from './App'
+import global_ from './components/Global'
+Vue.prototype.GLOBAL = global_
 
 Vue.config.productionTip = false
 const app = new Vue(App)
