@@ -1,16 +1,13 @@
 
 <script>
-  // 使用封装的 get 请求
-  // import {get} from './utils/request'
-  // import config from './utils/config'
   // import qcloud from 'wafer2-client-sdk'
   export default {
     // async 和 await 一起使用
-    created () {
+    async created () {
       // 获取用户信息
       // await 等待
-      // const res = await get('/user/getUserList')
-      // console.log(res)
+      const res = await this.$ajax.get('/user/getUserList')
+      console.log(res)
 
       // 设置登录地址
       // qcloud.setLoginUrl('http://127.0.0.1:8081/user/login')

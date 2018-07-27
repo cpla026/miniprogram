@@ -1,8 +1,7 @@
 import Vue from 'vue'
 import App from './App'
-import global_ from './components/Global'
-Vue.prototype.GLOBAL = global_
-
+import requestutil from '@/utils/requestutil' // 导入封装好的net
+Vue.prototype.$ajax = requestutil // 微信小程序网络请求的配置
 Vue.config.productionTip = false
 const app = new Vue(App)
 app.$mount()
