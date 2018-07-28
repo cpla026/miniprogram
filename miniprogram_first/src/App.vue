@@ -1,47 +1,54 @@
 
 <script>
-  // import qcloud from 'wafer2-client-sdk'
+  import config from '@/utils/config'
   export default {
+    data () {
+      return {
+        token: {
+          openid: '',
+          session_key: ''
+        }
+      }
+    },
     // async 和 await 一起使用
-    async created () {
+    created () {
       // 获取用户信息
       // await 等待
-      const res = await this.$ajax.get('/user/getUserList')
-      console.log(res)
-
-      // 设置登录地址
-      // qcloud.setLoginUrl('http://127.0.0.1:8081/user/login')
-      // qcloud.login({
-      //   success: function (userInfo) {
-      //     console.log('登录成功', userInfo)
-      //   },
-      //   fail: function (err) {
-      //     console.log('登录失败', err)
-      //   }
-      // })
-      // wx.login({
-      //   success: (res) => {
-      //     if (res.code) {
-      //       // 发起网络请求
-      //       console.log(res.code)
-      //       wx.request({
-      //         url: config.host + '/user/getOpenId',
-      //
-      //         data: {
-      //           code: res.code
-      //         },
-      //         success: (res) => {
-      //           console.log('获取用户openid')
-      //           console.log(res.data)
-      //           // that.globalData.openid = a.data.obj.openid
-      //         }
-      //       })
-      //     } else {
-      //       console.log('获取用户登录态失败！' + res.errMsg)
-      //     }
-      //   }
-      // })
-      // 可以通过 wx.getSetting 先查询一下用户是否授权了 "scope.record" 这个 scope
+      // const res = await this.$ajax.get('/user/getUserList')
+      // console.log(res)
+      // let self = this
+      wx.login({
+        success: (res) => {
+          if (res.code) {
+            // 发起网络请求
+            console.log(res.code)
+            wx.request({
+              url: config.host + '/user/getOpenId',
+              data: {
+                code: res.code
+              },
+              success: (e) => {
+                if (e.data.status === 200) {
+                  console.log(e.data)
+                  // self.token = result.data
+                  // console.log(self.token)
+                  wx.setStorageSync('token', e.data.data)
+                }
+              }
+            })
+            // const res2 = this.$ajax.get('/user/getOpenId', {code: res.code})
+            // console.log(res2)
+            // if (res2.status === 200) {
+            //   console.log(res2.data)
+            //   // self.token = result.data
+            //   // console.log(self.token)
+            //   wx.setStorageSync('token', res2.data)
+            // }
+          } else {
+            console.log('获取用户登录态失败！' + res.errMsg)
+          }
+        }
+      })
     }
   }
 </script>

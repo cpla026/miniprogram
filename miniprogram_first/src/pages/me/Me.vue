@@ -3,7 +3,7 @@
     <div class="userinfo" >
       <img :src="userinfo.avatarUrl" alt="">
       <p v-show="flag">{{userinfo.nickName}}</p>
-      <button v-show="!flag" open-type="getUserInfo" @getuserinfo="bindGetUserInfo" @click="getUserInfo1">获取权限</button>
+      <button v-show="!flag" open-type="getUserInfo" @getuserinfo="bindGetUserInfo">获取权限</button>
       <yearprogress></yearprogress>
       <button @click='scanBook' class='btn'>添加图书</button>
     </div>
@@ -33,9 +33,9 @@
     methods: {
       async addBook (isbn) {
         console.log(isbn)
-        const res = await this.$ajax.post('/user/addBook', {
+        const res = await this.$ajax.post('/book/addBook', {
           isbn: isbn,
-          a: 1
+          openid: wx.getStorageSync('token').openid
         })
         console.log(res)
         if (res.status === 200) {
@@ -80,7 +80,7 @@
           })
         }
       },
-      getUserInfo1 () {
+      /* getUserInfo1 () {
         console.log('click事件首先触发')
         // 判断小程序的API，回调，参数，组件等是否在当前版本可用。  为false 提醒用户升级微信版本
         // console.log(wx.canIUse('button.open-type.getUserInfo'))
@@ -89,7 +89,7 @@
         } else {
           console.log('请升级微信版本')
         }
-      },
+      }, */
       bindGetUserInfo (e) {
         console.log(e.mp.detail.userInfo)
         if (e.mp.detail.userInfo) {
@@ -109,7 +109,7 @@
           success: () => {
             wx.getUserInfo({
               success: (res) => {
-                console.log(res)
+                console.log(666, res)
                 this.userinfo = res.userInfo
               }
             })
