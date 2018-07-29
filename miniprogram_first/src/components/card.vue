@@ -1,4 +1,5 @@
 <template>
+  <a :href="detailUrl">
   <div class="book-card">
     <!-- 封面 -->
     <div class="thumb">
@@ -8,7 +9,7 @@
     <div class="detail">
       <div class="row">
         <div class="right">
-          {{book.rate}}
+          {{book.rate}} <Rate :value="book.rate - 0"></Rate>
         </div>
         <div class="left">
           {{book.title}}
@@ -33,12 +34,22 @@
       </div>
     </div>
   </div>
+  </a>
 </template>
 
 <script>
-export default {
-  props: ['book']
-}
+  import Rate from '@/components/Rate'
+  export default {
+    components: {
+      Rate
+    },
+    props: ['book'],
+    computed: {
+      detailUrl () {
+        return '/pages/detail/main?id=' + this.book.id
+      }
+    }
+  }
 </script>
 
 <style lang="scss" scoped>
